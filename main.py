@@ -5,7 +5,7 @@ config_file_name = '.soundcloudlog.conf'
 
 #Handle arguments
 parser = argparse.ArgumentParser(description="Pretty print SoundCloud events up to now")
-parser.add_argument('-c', action='store_true', help="log all comments from your tracks")
+parser.add_argument('-c', help="log all comments from this user's tracks", metavar='username')
 args = parser.parse_args()
 
 #Read configuration
@@ -22,8 +22,8 @@ if os.path.isfile(config_path):
 
     commentsLog = CommentsLog(client)
 
-    if args.c:
-        commentsLog.log('jromic')
+    if args.c is not None:
+        commentsLog.log(args.c)
     else:
         parser.print_help()
 else:

@@ -9,3 +9,6 @@ usage:
 ###Requirements:
     * Python3
     * python-soundcloud `pip install soundcloud`
+
+###Screenshot:
+![screen](screen.png?raw=true "Screenshot")

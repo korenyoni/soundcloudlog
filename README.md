@@ -3,7 +3,7 @@
 Pretty print SoundCloud events up to now.
 
 ###Usage:
-    * -c log all comments from your tracks
+    * -c USERNAME log all comments from given user's tracks
     * -h show help
 
 ###Requirements:

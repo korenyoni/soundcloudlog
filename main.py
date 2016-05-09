@@ -20,11 +20,14 @@ if os.path.isfile(config_path):
         redirect_uri=config_auth['redirect_uri'],
         access_token=config_auth['access_token'])
 
-    commentsLog = CommentsLog(client)
 
-    if args.c is not None:
-        commentsLog.log(args.c)
-    else:
-        parser.print_help()
+    try:
+        if args.c is not None:
+            commentsLog = CommentsLog(client, args.c)
+            commentsLog.loop()
+        else:
+            parser.print_help()
+    except IOError:
+        print("Check your internet connection.")
 else:
     print('No config found. Place file in ' + config_file_name)

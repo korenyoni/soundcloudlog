@@ -11,8 +11,10 @@ class AbstractLog():
     eventList = EventList()
 
     def log(self):
-        if not self.eventList.sorted:
+        if not self.eventList.sorted: #first time
+            print('\n')
             self.eventList.sortList()
+            self.eventList.sorted = True
         for event in self.eventList:
             if not event.logged:
                 print(event.pretty_timestamp() + " " + event.content)

@@ -2,6 +2,7 @@ import time
 
 SC_TIME_FORMAT = "%Y/%m/%d %H:%M:%S +0000"
 
+
 class Event:
     logged = False
 

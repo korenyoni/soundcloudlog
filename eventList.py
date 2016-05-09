@@ -1,5 +1,3 @@
-from event import Event
-
 class EventList:
     sorted = False
     events = list()
@@ -17,4 +15,4 @@ class EventList:
         return x in self.events
 
     def sortList(self):
-        self.events = sorted(self.events, key=lambda Event : Event.epoch)
+        self.events = sorted(self.events, key=lambda Event: Event.epoch)

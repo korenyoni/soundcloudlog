@@ -1,14 +1,18 @@
-import soundcloud, configparser, os, argparse
+import argparse
+import configparser
+import os
+import soundcloud
+
 from loggers import CommentsLog
 
 config_file_name = '.soundcloudlog.conf'
 
-#Handle arguments
+# Handle arguments
 parser = argparse.ArgumentParser(description="Pretty print SoundCloud events up to now")
 parser.add_argument('-c', help="log all comments from this user's tracks", metavar='username')
 args = parser.parse_args()
 
-#Read configuration
+# Read configuration
 config_path = os.path.expanduser('~/') + config_file_name
 if os.path.isfile(config_path):
     config = configparser.ConfigParser()
@@ -19,7 +23,6 @@ if os.path.isfile(config_path):
         client_secret=config_auth['client_secret'],
         redirect_uri=config_auth['redirect_uri'],
         access_token=config_auth['access_token'])
-
 
     try:
         if args.c is not None:

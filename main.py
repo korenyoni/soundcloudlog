@@ -10,6 +10,7 @@ config_file_name = '.soundcloudlog.conf'
 # Handle arguments
 parser = argparse.ArgumentParser(description="Pretty print SoundCloud events up to now")
 parser.add_argument('-c', help="log all comments from this user's tracks", metavar='username')
+parser.add_argument('-d', help="delay printing of each event so that events aren't printed all at once", action='store_true')
 args = parser.parse_args()
 
 # Read configuration
@@ -26,7 +27,7 @@ if os.path.isfile(config_path):
 
     try:
         if args.c is not None:
-            commentsLog = CommentsLog(client, args.c)
+            commentsLog = CommentsLog(client, username=args.c, delay=args.d)
             commentsLog.loop()
         else:
             parser.print_help()

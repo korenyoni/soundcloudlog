@@ -1,25 +1,29 @@
-import soundcloud
-import time
+import soundcloud, time, sys, codecs
 
 from colors import bcolors
 from event import Event
-from eventList import EventList
+from eventlist import EventList
 
+sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
 class AbstractLog():
     client = None
-    eventList = EventList()
+    event_list = EventList()
+    print_delay = False
 
     def log(self):
-        if not self.eventList.sorted: #first time
-            print('\n')
-            self.eventList.sortList()
-            self.eventList.sorted = True
-        for event in self.eventList:
+        if not self.event_list.sorted: #first time
+            self.event_list.sortList()
+            self.event_list.sorted = True
+        for event in self.event_list:
             if not event.logged:
-                print(event.pretty_timestamp() + " " + event.content)
+                if self.print_delay : self.delay_print()
+                sys.stdout.buffer.write(bytes(event.pretty_timestamp() + ' ' + event.content + '\n', encoding='utf-8'))
+                sys.stdout.flush()
                 event.logged = True
 
+    def delay_print(self):
+        time.sleep(0.12) # delay printing to stdout
 
 class CommentsLog(AbstractLog):
     """
@@ -28,11 +32,12 @@ class CommentsLog(AbstractLog):
     username = None
     tracks = None
 
-    def __init__(self, client, username=None):
+    def __init__(self, client, username=None, delay=False):
         if not isinstance(client, soundcloud.Client):
             raise TypeError("client must be soundcloud.Client")
         self.client = client
         self.username = username
+        self.print_delay = delay
 
     def populate(self):
         if self.username is None:
@@ -46,7 +51,7 @@ class CommentsLog(AbstractLog):
                                + bcolors.ENDC + bcolors.WARNING + '(' + track.title \
                                + ')' + bcolors.ENDC + ': ' + bcolors.FAIL + comment.body
                 event = Event(comment.created_at, eventContent)
-                self.eventList.append(event)
+                self.event_list.append(event)
 
     def loop(self):
         time.sleep(5)

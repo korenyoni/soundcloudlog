@@ -1,4 +1,5 @@
 import time
+from colors import bcolors
 
 SC_TIME_FORMAT = "%Y/%m/%d %H:%M:%S +0000"
 
@@ -18,4 +19,4 @@ class Event:
         return int(time.mktime(time.strptime(self.date, SC_TIME_FORMAT)))
 
     def pretty_timestamp(self):
-        return self.date.split(" +0000")[0]
+        return bcolors.FAIL + self.date.split(" +0000")[0]
